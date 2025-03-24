@@ -1,70 +1,72 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 class Time {
 private:
-    int seconds_;
-    int minutes_;
-    int hours_;
+    int seconds;
+    int minutes;
+    int hours;
 public:
     Time() {};
     Time(int h, int m, int s) {
-        hours_ = ((m / 60) + h) % 24;
-        minutes_ = ((s / 60) + m) % 60;
-        seconds_ = s % 60;
+        hours = ((m / 60) + h) % 24;
+        minutes = ((s / 60) + m) % 60;
+        seconds = s % 60;
     }
     Time(int s) {
         int minutes = (s / 60);
-        hours_ = minutes / 60;
-        seconds_ = s % 60;
-        minutes_ = minutes % 60;
+        hours = minutes / 60;
+        seconds = s % 60;
+        minutes = minutes % 60;
     }
     int convertToSeconds() {
-        return (hours_ * 3600) + (minutes_ * 60) + seconds_;
+        return (hours * 3600) + (minutes * 60) + seconds;
     }
 
     Time operator-(const Time& t) const {
-        return Time(hours_ - t.hours_, minutes_ - t.minutes_, seconds_ - t.seconds_);
+        return Time(hours - t.hours, minutes - t.minutes, seconds - t.seconds);
     }
     Time operator+(const Time& t) const {
-        return Time(hours_ + t.hours_, minutes_ + t.minutes_, seconds_ + t.seconds_);
+        return Time(hours + t.hours minutes + t.minutes, seconds + t.seconds);
     }
-    Time operator*(const int scalar) const {
-        return Time(scalar * hours_, scalar * minutes_, scalar * seconds_);
+    Time operator*(const int number) const {
+        return Time(number * hours, number * minutes, number * seconds);
     }
     operator int() {
         return convertToSeconds();
     }
-    friend std::ostream& operator<<(std::ostream& str, Time& t);
-    friend std::istream& operator >>(std::istream& in, Time& t);
+    friend ostream& operator<<(ostream& str, Time& t);
+    friend istream& operator >>(istream& in, Time& t);
 };
-std::ostream& operator<<(std::ostream& str, Time& t) {
-    if (t.hours_ != 0) {
-        str << t.hours_ << "h:" << t.minutes_ << "m:" << t.seconds_ << "s";
+ostream& operator<<(ostream& str, Time& t) {
+    if (t.hours != 0) {
+        str << t.hours << "h:" << t.minutes << "m:" << t.seconds << "s";
     }
     else {
-        str << t.minutes_ << "m:" << t.seconds_ << "s";
+        str << t.minutes << "m:" << t.seconds << "s";
     }
     return str;
 }
-std::istream& operator >>(std::istream& in, Time& t) {
-    std::cout << "Enter hours: ";
-    in >> t.hours_;
-    std::cout << "Enter minutes: ";
-    in >> t.minutes_;
-    std::cout << "Enter seconds: ";
-    in >> t.seconds_;
+istream& operator >>(istream& in, Time& t) {
+    cout << "Enter hours: ";
+    in >> t.hours;
+    cout << "Enter minutes: ";
+    in >> t.minutes;
+    cout << "Enter seconds: ";
+    in >> t.seconds;
     return in;
 }
 
 class Item {
 private:
-    std::string name;
+    string name;
     float price;
     char vat; 
     int amount;
 public:
-    Item(std::string n, float p, char v, int a) {
+    Item(string n, float p, char v, int a) {
         name = n;
         price = p;
         vat = v;
@@ -86,28 +88,28 @@ public:
         }
         return getNetto() * localVat + getNetto();
     }
-    friend std::ostream& operator<<(std::ostream& str, Item& item);
+    friend ostream& operator<<(ostream& str, Item& item);
 };
 
-std::ostream& operator<<(std::ostream& str, Item& item){
+ostream& operator<<(ostream& str, Item& item){
     str << item.name << "     | " << item.price << " " << item.vat << " | " << item.amount << " | " << item.getNetto() << " | " << item.getBrutto();
     return str;
 }
 
 class Invoice {
 private:
-    std::string sellerNIP;
-    std::string buyerNIP;
-    std::vector<Item> items;
+    string sellerNIP;
+    string buyerNIP;
+    vector<Item> items;
 public:
-    Invoice(std::string sNIP, std::string bNIP) {
+    Invoice(string sNIP, string bNIP) {
         sellerNIP = sNIP;
         buyerNIP = bNIP;
     }
     void addItem(const Item& item) {
         items.push_back(item);
     }
-    friend std::ostream& operator<<(std::ostream& str, Invoice& inv);
+    friend ostream& operator<<(ostream& str, Invoice& inv);
 	Invoice operator+(const Invoice& inv) {
         Invoice result(sellerNIP, buyerNIP);
         if (sellerNIP == inv.sellerNIP) {
@@ -122,7 +124,7 @@ public:
         
 	}
 };
-std::ostream& operator<<(std::ostream& str, Invoice& inv) {
+ostream& operator<<(ostream& str, Invoice& inv) {
     float totalNetto = 0;
     float totalBrutto = 0;
     str << "------------------VAT invoice------------------" << "\n";
@@ -142,23 +144,23 @@ std::ostream& operator<<(std::ostream& str, Invoice& inv) {
 int main()
 {
     int choice = 0;
-    std::cout << "Chose task (1 - Time, 2 - Superinvoice): ";
-    std::cin >> choice;
+    cout << "Chose task (1 - Time, 2 - Superinvoice): ";
+    cin >> choice;
     if (choice == 1) {
         Time t1(29, 51, 231);
-        std::cout << t1 << "\n";
+        cout << t1 << "\n";
         Time t2;
-        std::cin >> t2;
-        std::cout << t2 << "\n";
+        cin >> t2;
+        cout << t2 << "\n";
 
         Time add_result = t1 - t2;
         Time sub_result = t1 - t2;
         Time mult_result = t1 * 3;
-        std::cout << t1 << "+" << t2 << "=" << add_result << "\n";
-        std::cout << t1 << "-" << t2 << "=" << sub_result << "\n";
-        std::cout << t1 << "* 3 = " << mult_result << "\n";
+        cout << t1 << "+" << t2 << "=" << add_result << "\n";
+        cout << t1 << "-" << t2 << "=" << sub_result << "\n";
+        cout << t1 << "* 3 = " << mult_result << "\n";
         
-        std::cout << "Conversion " << t2 << " to seconds : " << static_cast<int>(t2);
+        cout << "Conversion " << t2 << " to seconds : " << static_cast<int>(t2);
     }
     else if(choice == 2){
         Invoice inv("7770003699", "0123456789");
@@ -167,9 +169,9 @@ int main()
 		Invoice inv2("7770003699", "0123456789");
         inv.addItem(Item("Example", 3.14, 'A', 21));
 		Invoice inv3 = inv + inv2;
-        std::cout << inv3 << std::endl;
+        cout << inv3 << std::endl;
     }
     else {
-        std::cout << "Wrong choice!!!";
+        cout << "Wrong choice!!!";
     }
 }
